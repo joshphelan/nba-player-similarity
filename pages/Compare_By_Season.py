@@ -189,6 +189,7 @@ grid_options = options_builder.build()
 AgGrid(stats_player[list("Pic".split(" "))+list("Player".split(" "))+all_stats], 
         gridOptions = grid_options,
         allow_unsafe_jscode=True,
+        enable_enterprise_modules=False,
         height=125, theme='material')
 
 # retrieve 5 most similar players to inputted player
@@ -234,6 +235,7 @@ grid_options = options_builder.build()
 grid = AgGrid(players[list("Pic".split(" "))+list("Player".split(" "))+all_stats+list("Similarity".split(" "))], 
         gridOptions = grid_options,
         allow_unsafe_jscode=True,
+        enable_enterprise_modules=False,
         theme='material')
 
 # function to return comparison table between inputted player and selected player

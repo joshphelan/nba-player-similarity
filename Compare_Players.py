@@ -235,6 +235,7 @@ if player1 != player2:
     AgGrid(stats_player2[list("Pic".split(" "))+list("Player".split(" "))+all_stats], 
             gridOptions = grid_options,
             allow_unsafe_jscode=True,
+            enable_enterprise_modules=False,
             height=125, theme='material')
 
     
