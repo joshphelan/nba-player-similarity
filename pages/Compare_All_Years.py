@@ -10,6 +10,7 @@ Compare All Years Page
 import pandas as pd
 from random import sample
 import pickle
+import urllib.request
 from st_aggrid import AgGrid, JsCode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 import altair as alt
@@ -52,8 +53,8 @@ def get_stats_data():
 # function to retrieve distance dictionary for given year
 @st.cache(allow_output_mutation=True)
 def get_dist_data():
-    with open('data/dist_dict_all.pkl', 'rb') as f:
-        dist_dict = pickle.load(f)
+    # load pickle file from url since I uploaded it to Github using Git Large File Storage
+    dist_dict = pickle.load(urllib.request.urlopen("https://github.com/joshphelan/nba-player-similarity/blob/main/data/dist_dict_all.pkl?raw=true"))
     return dist_dict
 
 # function to return the top 5 most similar players given a player id
