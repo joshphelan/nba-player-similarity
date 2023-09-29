@@ -131,24 +131,24 @@ st.subheader(name(player))
 stats_player = stats.loc[[player_id]]
 
 # Display similar players with pictures in AgGrid
+# created on 9/26 with luke
 render_image = JsCode('''
-                      
-    function renderImage(params) {
-    // Create a new image element
-    var img = new Image();
-
-    // Set the src property to the value of the cell (should be a URL pointing to an image)
-    img.src = params.value;
-
-    // Set the width and height of the image to 50 pixels
-    img.width = 25;
-    img.height = 35;
-
-    // Return the image element
-    return img;
+    class CellRenderer {
+        init(params) {
+            console.log(params);
+            console.log("Hello");
+            this.eGui = document.createElement('img');
+            this.eGui.setAttribute('src', params.value);
+            this.eGui.setAttribute('width', '25');
+            this.eGui.setAttribute('height', '35');
+        }
+        getGui() {
+            console.log("gui got got");
+            return this.eGui;
+        }
     }
-'''
-)
+''')
+
 
 # function to return contents from url
 def read_file_from_url(url):
@@ -183,7 +183,8 @@ AgGrid(stats_player[list("Pic".split(" "))+list("Player".split(" "))+all_stats],
         gridOptions = grid_options,
         allow_unsafe_jscode=True,
         enable_enterprise_modules=False,
-        height=125, theme='material')
+        #height=125, # set height to 0 in order to display tables. 9/28/23
+        theme='material')
 
 
 # retrieve 5 most similar players to inputted player
