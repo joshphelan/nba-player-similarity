@@ -147,24 +147,43 @@ if player1 != player2:
     stats_player1 = stats.loc[[player1_id]]
         
     # Display similar players with pictures in AgGrid
+#    render_image = JsCode('''
+#                          
+ #       function renderImage(params) {
+  #      // Create a new image element
+   #     var img = new Image();
+    #
+     #   // Set the src property to the value of the cell (should be a URL pointing to an image)
+      #  img.src = params.value;
+    #
+     #   // Set the width and height of the image to 50 pixels
+      #  img.width = 25;
+       # img.height = 35;
+    
+        #// Return the image element
+        #return img;
+      #  }
+    #'''
+    #)
+ 
+    # created on 9/26 with luke
     render_image = JsCode('''
-                          
-        function renderImage(params) {
-        // Create a new image element
-        var img = new Image();
-    
-        // Set the src property to the value of the cell (should be a URL pointing to an image)
-        img.src = params.value;
-    
-        // Set the width and height of the image to 50 pixels
-        img.width = 25;
-        img.height = 35;
-    
-        // Return the image element
-        return img;
+        class CellRenderer {
+            init(params) {
+                console.log(params);
+                console.log("Hello");
+                this.eGui = document.createElement('img');
+                this.eGui.setAttribute('src', params.value);
+                this.eGui.setAttribute('width', '25');
+                this.eGui.setAttribute('height', '35');
+            }
+            getGui() {
+                console.log("gui got got");
+                return this.eGui;
+            }
         }
-    '''
-    )
+    ''')
+
     
     # function to return contents from url
     def read_file_from_url(url):
@@ -200,7 +219,8 @@ if player1 != player2:
             gridOptions = grid_options,
             allow_unsafe_jscode=True,
             enable_enterprise_modules=False,
-            height=125, theme='material')
+            #height=125, # set height to 0 in order to display tables. 9/28/23
+            theme='material')
     
     # create dataframe for player1
     st.subheader(name(player2))
@@ -223,20 +243,14 @@ if player1 != player2:
     
     # insert headshots to players dataframe
     stats_player2.insert(0,"Pic",pics)
-
-    # build GridOptions object for AgGrid table
-    options_builder = GridOptionsBuilder.from_dataframe(stats_player2[list("Pic".split(" "))+list("Player".split(" "))+all_stats])
-    options_builder.configure_column('Pic', cellRenderer = render_image,width =50, header_name= "")
-    options_builder.configure_column('Player', width=165)
-    options_builder.configure_default_column(width=103)
-    grid_options = options_builder.build()
     
     # display AgGrid table for player 2
     AgGrid(stats_player2[list("Pic".split(" "))+list("Player".split(" "))+all_stats], 
             gridOptions = grid_options,
             allow_unsafe_jscode=True,
             enable_enterprise_modules=False,
-            height=125, theme='material')
+            #height=125, # set height to 0 in order to display tables. 9/28/23
+            theme='material')
 
     
     # function to return comparison table between two players
